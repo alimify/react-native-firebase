@@ -9,9 +9,14 @@ import {
   Text,
   useColorScheme,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
-
+import {
+    ArrowLeft,
+    ArrowRight,
+    Logo
+  } from "../icons";
 
 
 export default function DateSwiper (props: any): JSX.Element {
@@ -59,7 +64,7 @@ export default function DateSwiper (props: any): JSX.Element {
                     selected={15}
                     keyExtractor={keyExtractor}
                     style={{width: 200}}
-                    renderItem={({item}) => <View style={{width: 200, alignContent: 'center',alignItems:'center'}}><Text style={{color:'green', fontSize: 20, fontWeight:'400', fontFamily:'Poppins'}}>{props.dayName}</Text><Text>{props.date}</Text></View>}
+                    renderItem={({item}) => <View style={{width: 200, alignContent: 'center',alignItems:'center'}}><Text style={{color:'green', fontSize: 20, fontWeight:'400', fontFamily:'Poppins'}}>{props.dayName}</Text><Text style={{color:'#32A071', fontSize: 12, lineHeight: 18, fontWeight: 400 }}>{props.date}</Text></View>}
                     horizontal
                     pagingEnabled
                     snapToAlignment="center"
@@ -116,6 +121,7 @@ export default function DateSwiper (props: any): JSX.Element {
                     }    
                 }}>
                     <Text>{'>'}</Text>
+                
                 </TouchableOpacity>
             </View>
 

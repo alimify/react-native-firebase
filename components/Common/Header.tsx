@@ -9,20 +9,29 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Logo
+} from "../icons";
 
 function Header(): JSX.Element {
    
     return (
       <View style={styles.sectionContainer}>
-            <Text>Some Txt</Text>
+            <Logo color={'white'} height={25} style={{alignContent:'center',alignSelf:'center'}}/>
       </View>
     );
   }
 
   const styles = StyleSheet.create({
     sectionContainer: {
-      marginTop: 32,
-      paddingHorizontal: 24,
+      margin: 20,
+      marginLeft: 160,
+      alignContent:'center',
+      alignItems:'center',
+      alignSelf:'center',
+      textAlign:'center'
     },
     sectionTitle: {
       fontSize: 24,

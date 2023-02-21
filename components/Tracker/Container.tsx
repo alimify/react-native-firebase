@@ -74,127 +74,13 @@ class Container extends React.Component {
                  }}>
                       <Text style={styles.addNewBtnTxt}>Add New Date</Text>
                  </TouchableOpacity>
+                 {this._addDateModal()}
 
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.addDateModalShow}
-                        onRequestClose={() => {
-                        
-                        
-                        }}>
-                            
-
-                        <View style={{...styles.centeredView, backgroundColor: 'rgba(52, 52, 52, 0.8)'}}>
-                            
-                            <View style={styles.modalView}>
-                                
-                                <View>
-                                    <Text>Date</Text>
-                                    <TouchableOpacity onPress={() => {
-                                        this.setState({
-                                            datePickerShow: true
-                                        })
-                                    }}>
-
-                                        <Text style={{borderWidth: 1,borderRadius: 8, padding: 14, borderColor:'green'}}>{this.state.newDateVal.date.toLocaleDateString('en-GB',{
-                                            month: "long",
-                                            year: "numeric",
-                                            day: "numeric",
-                                        })}</Text>
-                                    </TouchableOpacity>
-
-                                                        <Modal
-                                                            supportedOrientations={['portrait', 'landscape']}
-                                                            animationType="none"
-                                                            transparent={true}
-                                                            statusBarTranslucent={false}
-                                                            visible={ this.state.datePickerShow}>
-                                                                <Calendar style={{margin:50, marginTop: 130, borderWidth: 1,borderColor:'green'}} 
-                                                                          initialDate={this.state.newDateVal.date.toLocaleDateString('en-GB', {
-                                                                            month: "numeric",
-                                                                            year: "numeric",
-                                                                            day: "numeric",
-                                                                          }).split('\/').reverse().join('-')} 
-                                                                          onDayPress={(day) => {
-                                                                                        this.setState({
-                                                                                            newDateVal: {...this.state.newDateVal,date: new Date(day.timestamp)},
-                                                                                            datePickerShow: false
-                                                                                        })
-                                                                }}/>
-                                                        </Modal>
-                                
-                                </View>
-                                <View>
-                                    <Text>Start Time</Text>
-                                    <SelectDropDown data={this._timeList()}
-                                        onSelect={(selectedItem, index) => {
-                                            console.log(selectedItem, index)
-                                        }}
-                                        defaultButtonText="Select time"
-                                        buttonStyle={styles.dropdown1BtnStyle}
-                                        buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                                    />
-                                </View>
-
-                                <View>
-                                    <Text>End Time</Text>
-                                    <SelectDropDown data={this._timeList()}
-                                        onSelect={(selectedItem, index) => {
-                                            console.log(selectedItem, index)
-                                        }}
-                                        defaultButtonText="Select time"
-                                        buttonStyle={styles.dropdown1BtnStyle}
-                                        buttonTextStyle={styles.dropdown1BtnTxtStyle}
-                                    />
-                                </View>
-
-                                <View>
-                                    <TouchableOpacity style={{backgroundColor:'green', padding: 10, width: 120, borderRadius: 8, alignItems:'center', marginTop: 10}}
-                                            onPress={() => {
-                                                this.setState({
-                                                    addDateModalShow: false
-                                                })
-                                            }}>
-                                        <Text style={{color:'white', fontWeight:'900'}}>ADD</Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                            </View>
-
-                        </View>
-
-                    </Modal>
-
-      
                  <View style={{...styles.trackListContainer,minHeight: screenHeight - 200}}>
-                        
                               {this.state.dateSlots.map((item,index) => <View key={index.toString()}>{this._dateSlot(item)}</View>)}
                   </View>
-      
-            
-      
-                 <View style={styles.flex}>
-      
-                      <View style={{...styles.flex, ...styles.justifyBetween}}>
-                          <View>
-                              <Text>Total Day</Text>
-                          </View>
-                          <View>
-                              <Text>14</Text>
-                          </View>
-                      </View>
-      
-                      <View style={{...styles.flex, ...styles.justifyBetween}}>
-                          <View>
-                              <Text>Total Hours</Text>
-                          </View>
-                          <View>
-                              <Text>14</Text>
-                          </View>
-                      </View>
-      
-                 </View>
+                  {this._summery()}
+
                   
             </View>
           );
@@ -227,7 +113,7 @@ class Container extends React.Component {
             </View>
             <View style={{flexDirection:'row', flexWrap:'wrap',...styles.justifyBetween}}>
                 <View>
-                    <Text>Start Time</Text>
+                    <Text style={styles.dateSlotTxt}>Start Time</Text>
 
                     <SelectDropDown data={this._timeList()}
                                         onSelect={(selectedItem, index) => {
@@ -241,7 +127,7 @@ class Container extends React.Component {
 
                 </View>
                 <View>
-                    <Text>End Time</Text>
+                    <Text style={styles.dateSlotTxt}>End Time</Text>
 
                     <SelectDropDown data={this._timeList()}
                                         onSelect={(selectedItem, index) => {
@@ -255,8 +141,8 @@ class Container extends React.Component {
 
                 </View>
                 <View>
-                    <Text>Hours</Text>
-                    <View style={{backgroundColor:'#C7F0DF', paddingHorizontal: 30, paddingVertical:10, borderRadius: 10, margin: 3}}>
+                    <Text style={styles.dateSlotTxt}>Hours</Text>
+                    <View style={{backgroundColor:'#C7F0DF', paddingHorizontal: 30, paddingVertical:8, borderRadius: 10, margin: 0}}>
                         <Text style={{color:'#2DA771'}}>7 hours</Text>
                     </View>
                 </View>
@@ -266,6 +152,133 @@ class Container extends React.Component {
 
 
         );
+    }
+
+    _summery(){
+
+        return (
+            <View style={{...styles.flex,...styles.justifyBetween, borderTopWidth: 0.2, borderTopColor:'green', padding: 10}}>
+      
+                    <View style={{...styles.flex, justifyContent:'space-between'}}>
+                        <View style={{paddingHorizontal: 10}}>
+                            <Text style={styles.summaryTxt}>Total Day</Text>
+                        </View>
+                        <View style={{paddingHorizontal: 10}}>
+                            <Text style={styles.summaryTxt}>14</Text>
+                        </View>
+                    </View>
+
+                    <View style={{...styles.flex, justifyContent:'space-between',}}>
+                        <View style={{paddingHorizontal: 10}}>
+                            <Text style={styles.summaryTxt}>Total Hours</Text>
+                        </View>
+                        <View style={{paddingHorizontal: 10}}>
+                            <Text style={styles.summaryTxt}>14</Text>
+                        </View>
+                    </View>
+            </View>
+        )
+    }
+
+    _addDateModal(){
+
+
+        return (
+
+
+            <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.addDateModalShow}
+            onRequestClose={() => {
+            
+            
+            }}>
+                
+
+            <View style={{...styles.centeredView, backgroundColor: 'rgba(52, 52, 52, 0.8)'}}>
+                
+                <View style={styles.modalView}>
+                    
+                    <View>
+                        <Text>Date</Text>
+                        <TouchableOpacity onPress={() => {
+                            this.setState({
+                                datePickerShow: true
+                            })
+                        }}>
+
+                            <Text style={{borderWidth: 1,borderRadius: 8, padding: 14, borderColor:'green'}}>{this.state.newDateVal.date.toLocaleDateString('en-GB',{
+                                month: "long",
+                                year: "numeric",
+                                day: "numeric",
+                            })}</Text>
+                        </TouchableOpacity>
+
+                                            <Modal
+                                                supportedOrientations={['portrait', 'landscape']}
+                                                animationType="none"
+                                                transparent={true}
+                                                statusBarTranslucent={false}
+                                                visible={ this.state.datePickerShow}>
+                                                    <Calendar style={{margin:50, marginTop: 130, borderWidth: 1,borderColor:'green'}} 
+                                                              initialDate={this.state.newDateVal.date.toLocaleDateString('en-GB', {
+                                                                month: "numeric",
+                                                                year: "numeric",
+                                                                day: "numeric",
+                                                              }).split('\/').reverse().join('-')} 
+                                                              onDayPress={(day) => {
+                                                                            this.setState({
+                                                                                newDateVal: {...this.state.newDateVal,date: new Date(day.timestamp)},
+                                                                                datePickerShow: false
+                                                                            })
+                                                    }}/>
+                                            </Modal>
+                    
+                    </View>
+                    <View>
+                        <Text>Start Time</Text>
+                        <SelectDropDown data={this._timeList()}
+                            onSelect={(selectedItem, index) => {
+                                console.log(selectedItem, index)
+                            }}
+                            defaultButtonText="Select time"
+                            buttonStyle={styles.dropdown1BtnStyle}
+                            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                        />
+                    </View>
+
+                    <View>
+                        <Text>End Time</Text>
+                        <SelectDropDown data={this._timeList()}
+                            onSelect={(selectedItem, index) => {
+                                console.log(selectedItem, index)
+                            }}
+                            defaultButtonText="Select time"
+                            buttonStyle={styles.dropdown1BtnStyle}
+                            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+                        />
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style={{backgroundColor:'green', padding: 10, width: 120, borderRadius: 8, alignItems:'center', marginTop: 10}}
+                                onPress={() => {
+                                    this.setState({
+                                        addDateModalShow: false
+                                    })
+                                }}>
+                            <Text style={{color:'white', fontWeight:'900'}}>ADD</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                </View>
+
+            </View>
+
+        </Modal>
+
+        )
+
     }
 
 
@@ -338,20 +351,18 @@ class Container extends React.Component {
     },
 
     flex: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
 
     justifyBetween: {
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-around'
     },
 
     trackListView: {
         height: '80%'
     },
-
-
 
     centeredView: {
         flex: 1,
@@ -376,13 +387,20 @@ class Container extends React.Component {
     dropdown1BtnStyle: {
         minWidth: 100,
         width: '100%',
-        height: 40,
+        height: 35,
         backgroundColor: '#FFF',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: 'green',
       },
-      dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left'},
+      dropdown1BtnTxtStyle: {
+        color: 'rgba(45, 167, 113, 0.5)',
+        textAlign: 'left',
+        fontStyle:'normal',
+        fontWeight:'400',
+        fontSize:12,
+        lineHeight: 18,
+    },
 
       wrapper: {
      
@@ -409,7 +427,27 @@ class Container extends React.Component {
         color: '#fff',
         fontSize: 30,
         fontWeight: 'bold'
-      }
+      },
+
+
+      summaryTxt: {
+        fontSize: 14, 
+        fontFamily:'Poppins',
+        textAlign:'center', 
+        fontStyle:'normal',
+        fontWeight:'400',
+        lineHeight:21,
+        color:'#00502E'
+    },
+
+    dateSlotTxt: {
+        color: 'rgba(0, 0, 0, 0.5)',
+        lineHeight: 21,
+        fontSize: 14,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        fontFamily:'Poppins'
+    }
 
   });
 
