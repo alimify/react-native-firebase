@@ -18,6 +18,16 @@ import {
 import {Calendar} from 'react-native-calendars';
 import SelectDropDown from "react-native-select-dropdown";
 import DateSwiper from './DateSwiper'
+import {
+    addDoc,
+    collection,
+    doc,
+    onSnapshot,
+    query,
+    updateDoc,
+  } from "firebase/firestore";
+import { db } from "../../firebase";
+
 
 class Container extends React.Component {
 
@@ -38,7 +48,6 @@ class Container extends React.Component {
             date: new Date(),
             updatedAt: new Date(),
           }
-        
         ],
         timeSlots: [],
         currentDate: new Date(),
@@ -84,6 +93,10 @@ class Container extends React.Component {
                   
             </View>
           );
+    }
+
+    componentDidMount(): void {
+        this._getFirebaseData()
     }
 
 
@@ -318,6 +331,62 @@ class Container extends React.Component {
 
 
     }
+
+
+
+    async _getFirebaseData() {
+
+        this.setState({
+            loading: true,
+          });
+      
+          const q = query(collection(db, "inmogr_dates"));
+          const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            let dataRR: any = [];
+            querySnapshot.forEach((doc) => {
+              dataRR.push({
+                ...doc.data(),
+                uniq: doc.id,
+                date: doc.data().date.toDate(),
+                updatedAt: doc.data().updatedAt.toDate(),
+              });
+            });
+            this.setState({
+              dateSlots: dataRR,
+              loading: false,
+            });
+      
+            return () => unsubscribe();
+          });
+    
+      }
+
+      async _addFirebaseData() {
+        this.setState({
+          loading: true,
+        });
+    
+        await addDoc(collection(db, "inmogr_dates"), this.state.newDateVal);
+    
+        this.setState({
+          loading: false,
+        });
+      }
+
+      async _updateFirebaseData(uniq: string) {
+        this.setState({
+          loading: true,
+        });
+    
+        const data = this.state.dateSlots.filter((item: any) => item.uniq == uniq);
+        if (data.length > 0) {
+          await updateDoc(doc(db, "inmogr_dates", uniq), data[0]);
+        }
+    
+        this.setState({
+          loading: false,
+        });
+      }
     
 }
 

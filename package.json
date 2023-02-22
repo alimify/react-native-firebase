@@ -11,16 +11,14 @@
     "icons:create": "npx @svgr/cli --native --typescript -d ./components/icons ./assets/svg --config-file ./components/icons/svgr-config.json --template ./components/icons/svg-template.js"
   },
   "dependencies": {
+    "firebase": "^9.17.1",
     "react": "18.2.0",
     "react-native": "0.71.3",
     "react-native-calendars": "^1.1293.0",
     "react-native-date-picker": "^4.2.9",
-    "react-native-pager-view": "^6.1.4",
     "react-native-select-dropdown": "^3.2.1",
     "react-native-svg": "^13.8.0",
-    "react-native-svg-transformer": "^1.0.0",
-    "react-native-swiper": "^1.6.0",
-    "react-native-swiper-dktan": "^1.5.14"
+    "react-native-svg-transformer": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
